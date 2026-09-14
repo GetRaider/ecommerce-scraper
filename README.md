@@ -54,8 +54,6 @@ CLI (arguments, orchestration, output)
 lib (logging, bounded concurrency, shared error helpers)
 ```
 
-
-
 ## Development
 
 ```sh
@@ -66,11 +64,9 @@ pnpm build
 pnpm format:check
 ```
 
-
+`pnpm install` installs a pre-commit hook: ESLint + Prettier on staged files only (not test/typecheck). GitHub Actions runs the commands above on push/PR.
 
 ## Trade-offs and Future Improvements
-
-
 
 ### Trade-offs
 
@@ -80,10 +76,7 @@ The task had the following ambiguities:
 - It says `total` is unique prices, then the example sums `results`.
 - It wants `colors` only when there are multiple options. Live phones use `select[aria-label="color"]`, not HDD swatches. Omit the key unless there are 2+ enabled options; do not split colors into extra rows.
 
-
-
 #### HDD prices
-
 
 | What                                                    | Implemented | Pros                                                             | Cons                                                                               |
 | ------------------------------------------------------- | ----------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -93,11 +86,7 @@ The task had the following ambiguities:
 | Fetch `?hdd=`                                           | ✗           | Looks like an API.                                               | Same HTML. No change.                                                              |
 | Hardcode each product                                   | ✗           | Exact today.                                                     | Breaks when the catalog changes.                                                   |
 
-
-
-
 #### `total`
-
 
 | What                                       | Implemented | Pros                                                                                                | Cons                                                                                                                           |
 | ------------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -106,11 +95,7 @@ The task had the following ambiguities:
 | Sum listing prices only, skip HDD split    | ✗           | Smaller number.                                                                                     | Throws away HDD rows.                                                                                                          |
 | Dedupe by name, then sum                   | ✗           | Looks tidy.                                                                                         | Drops real products (`Dell Latitude 5480` is 8 URLs).                                                                          |
 
-
-
-
 #### Colors
-
 
 | What                                                                                           | Implemented | Pros                                                  | Cons                                                           |
 | ---------------------------------------------------------------------------------------------- | ----------- | ----------------------------------------------------- | -------------------------------------------------------------- |
@@ -118,11 +103,7 @@ The task had the following ambiguities:
 | One JSON row per color                                                                         | ✗           | Same pattern as HDD.                                  | Task never asked. Mixes two product axes.                      |
 | Skip `colors`                                                                                  | ✗           | Simpler parser.                                       | Fails the Samsung example on phones.                           |
 
-
-
-
 #### Additional
-
 
 | What                                               | Implemented | Pros                                                     | Cons                                   |
 | -------------------------------------------------- | ----------- | -------------------------------------------------------- | -------------------------------------- |
@@ -131,11 +112,7 @@ The task had the following ambiguities:
 | Pretty JSON always                                 | ✓           | Easy to read.                                            | Noisy on a pipe.                       |
 | Names are not IDs; dedupe by URL only              | ✓           | Keeps same-name products.                                | You will see repeated titles.          |
 
-
-
-
 ### Future improvements
-
 
 | What                                               | Why                                                                                  |
 | -------------------------------------------------- | ------------------------------------------------------------------------------------ |
@@ -148,10 +125,9 @@ The task had the following ambiguities:
 | Parallel listing fetches                           | Category/pagination crawl is still sequential                                        |
 | HTTP cache on disk                                 | Repeat local runs should not hit the site ~173 times                                 |
 | Fixture refresh                                    | Checked-in HTML drifts from the live site                                            |
-| CI and a container                                 | Reproducible install/test/run outside a laptop                                       |
+| Container                                          | Reproducible run outside a laptop; CI already covers install/test                    |
 | `--allow-partial`                                  | Fail-loud is the default; some operators want a short `results` plus a non-zero exit |
 | Cancel in-flight requests on failure               | The pool already stops starting work; up to 7 fetches still complete                 |
-
 
 ## Bottom Line
 
